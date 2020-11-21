@@ -6,17 +6,17 @@ Initial Project Building requires download and extracting the latest release int
 
 Extracting the files will create the below folder structure for you including some basic files needed for a specific target.
 
-project/
-  code/
-    project
-  targets/
-    android
-    console
-    emscripten
-    ios
-    macos
-    windows
-  third-party
+- project/
+  - code/
+    - project
+  - targets/
+    - android
+    - console
+    - emscripten
+    - ios
+    - macos
+    - windows
+  - third-party
   
 ### Linking the Engine Submodule
 Perform a standard addition of a submodule in the project folder under the folder project/code/engine/ placing the contents of the repo into the engine folder itself. This gives us seperation between engine and game code while compiling it all together still.
