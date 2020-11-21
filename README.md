@@ -2,9 +2,9 @@
 Starting files needed to start creating great products with the RPG-Engine and RPG-Editor
 
 ## Starting Out
-Initial Project Building requires running the setup.ps1 or the setup.sh command in a empty folder repo you want your project.
+Initial Project Building requires download and extracting the latest release into an empty folder where yourrepofor your project is located.
 
-Running this file will create the below folder structure for you including some basic files needed for a specific target.
+Extracting the files will create the below folder structure for you including some basic files needed for a specific target.
 
 project/
   code/
