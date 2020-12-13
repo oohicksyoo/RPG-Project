@@ -23,3 +23,6 @@ Perform a standard addition of a submodule in the project folder under the folde
 
 ### Linking the Editor Submodule
 Perform a standard addition of a submodule in the project folder under the folder project/code/editor/ placing the contents of the repo into the editor folder itself. This allows us during release builds to exclude any code specific to the editor and or items needed by the editor system.
+
+### Windows Setup
+After running the setup.ps1 on Windows you will need to download the Vulkan SDK manually and install the files to the project/third-party/vulkan-windows
