@@ -1,0 +1,6 @@
+[submodule "code/engine"]
+	path = code/engine
+	url = https://github.com/oohicksyoo/RPG-Engine.git
+[submodule "code/editor"]
+	path = code/editor
+	url = https://github.com/oohicksyoo/RPG-Editor.git
