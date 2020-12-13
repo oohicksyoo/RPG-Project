@@ -22,4 +22,4 @@ Extracting the files will create the below folder structure for you including so
 Included in the template files is a **.gitmodules** file which will link the [RPG-Engine](https://github.com/oohicksyoo/RPG-Engine) & [RPG-Editor](https://github.com/oohicksyoo/RPG-Editor) repos to the project. These files are located under the **project/code/engine/** & **project/code/editor/**. This gives us seperation between engine, editor and game code while still being able to compile it all together still.
 
 ### Windows Setup
-After running the setup.ps1 on Windows you will need to download the Vulkan SDK manually and install the files to the project/third-party/vulkan-windows
+After running the setup.ps1 on Windows you will need to download the Vulkan SDK manually and install the files to the **project/third-party/vulkan-windows**
