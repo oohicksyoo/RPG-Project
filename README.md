@@ -2,9 +2,9 @@
 Starting files needed to start creating great products with the RPG-Engine and RPG-Editor
 
 ## Starting Out
-Initial Project Building requires download and extracting the latest release into an empty folder where yourrepofor your project is located.
+Initial Project Building requires download and extracting the latest release into an empty folder where your repo for your project is located.
 
-Extracting the files will create the below folder structure for you including some basic files needed for a specific target.
+Extracting the files will create the below folder structure for you including some basic files needed for a specific target. Some folders such as the **third-party** will not be created as it is generated through setup scripts for a target.
 
 - project/
   - code/
@@ -17,12 +17,9 @@ Extracting the files will create the below folder structure for you including so
     - macos
     - windows
   - third-party
-  
-### Linking the Engine Submodule
-Perform a standard addition of a submodule in the project folder under the folder project/code/engine/ placing the contents of the repo into the engine folder itself. This gives us seperation between engine and game code while compiling it all together still.
 
-### Linking the Editor Submodule
-Perform a standard addition of a submodule in the project folder under the folder project/code/editor/ placing the contents of the repo into the editor folder itself. This allows us during release builds to exclude any code specific to the editor and or items needed by the editor system.
+### Submodules
+Included in the template files is a **.gitmodules** file which will link the [RPG-Engine](https://github.com/oohicksyoo/RPG-Engine) & [RPG-Editor](https://github.com/oohicksyoo/RPG-Editor) repos to the project. These files are located under the **project/code/engine/** & **project/code/editor/**. This gives us seperation between engine, editor and game code while still being able to compile it all together still.
 
 ### Windows Setup
 After running the setup.ps1 on Windows you will need to download the Vulkan SDK manually and install the files to the project/third-party/vulkan-windows
