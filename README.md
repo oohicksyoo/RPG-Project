@@ -17,6 +17,7 @@ Extracting the files will create the below folder structure for you including so
     - macos
     - windows
   - third-party
+  - vulkan-shader-source
 
 ### Submodules
 Included in the template files is a **.gitmodules** file which will link the [RPG-Engine](https://github.com/oohicksyoo/RPG-Engine) and [RPG-Editor](https://github.com/oohicksyoo/RPG-Editor) repos to the project. These files are located under the **project/code/engine/** & **project/code/editor/**. This gives us seperation between engine, editor and game code while still being able to compile it all together still.
