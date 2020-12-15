@@ -93,10 +93,10 @@ if (!(Test-Path "..\..\third-party\sdl-image-windows")) {
     Write-Host "SDL-image-windows already exists"
 }
 
-# Compile Vulkan shaders into SPIR-V binary assets.
-#Push-Location -Path "../main/vulkan_shader_source"
-#    .\compile_shaders.ps1
-#Pop-Location
+#Compile Vulkan shaders into SPIR-V binary assets.
+Push-Location -Path "../../vulkan_shader_source"
+    .\compile_shaders.ps1
+Pop-Location
 
 # Check that we have Lua third party Windows
 if (!(Test-Path "..\..\third-party\lua")) {
