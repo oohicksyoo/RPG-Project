@@ -9,9 +9,10 @@ Extracting the files will create the below folder structure for you including so
 - project/
   - code/
     - project
+  - shared
   - targets/
     - android
-    - console
+    - console (mac)
     - emscripten
     - ios
     - macos
