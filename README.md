@@ -26,4 +26,27 @@ Included in the template files is a **.gitmodules** file which will link the [RP
 ### Windows Setup
 After running the setup.ps1 on Windows you will need to download the [Vulkan SDK (1.2.135.0)](https://vulkan.lunarg.com/sdk/home#windows) manually and install the files to the **project/third-party/vulkan-windows**
 
+### Lua
+Lua has a function that uses a deprecated function called on **iOS** & **Android**. To avoid this issue it is reconmended to change this below after running the setup file for any target.
 
+Open Ioslib.c inside of **third-party/lua** line **141**
+```lua
+static int os_execute (lua_State *L) {
+  const char *cmd = luaL_optstring(L, 1, NULL);
+  int stat = system(cmd);
+  if (cmd != NULL)
+    return luaL_execresult(L, stat);
+  else {
+    lua_pushboolean(L, stat);  /* true if there is a shell */
+    return 1;
+  }
+}
+```
+
+to
+
+```lua
+static int os_execute (lua_State *L) {
+    return 1;
+}
+```
