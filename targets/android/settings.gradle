@@ -1,0 +1,3 @@
+include ':SDL'
+include ':app'
+rootProject.name = "RPG Engine"

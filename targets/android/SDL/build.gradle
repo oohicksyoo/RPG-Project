@@ -1,0 +1,26 @@
+apply plugin: 'com.android.library'
+
+android {
+    buildToolsVersion rpg.buildToolsVersion
+    compileSdkVersion rpg.compileSdkVersion
+    ndkVersion rpg.ndkVersion
+
+    defaultConfig {
+        minSdkVersion rpg.minSdkVersion
+        targetSdkVersion rpg.targetSdkVersion
+        versionCode rpg.versionCode
+        versionName rpg.versionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path 'jni/Android.mk'
+        }
+    }
+}

@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+	buildToolsVersion rpg.buildToolsVersion
+	compileSdkVersion rpg.compileSdkVersion
+	ndkVersion rpg.ndkVersion
+
+	defaultConfig {
+		applicationId "com.redpandagames.rpgengine"
+		
+		minSdkVersion rpg.minSdkVersion
+		targetSdkVersion rpg.targetSdkVersion
+		versionCode rpg.versionCode
+		versionName rpg.versionName
+
+		externalNativeBuild {
+			cmake {
+				arguments "-DANDROID_STL=c++_shared", "-DAPP_PLATFORM=android-21"
+			}
+		}
+
+		ndk {
+			abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+		}
+	}
+
+	buildTypes {
+		release {
+			signingConfig signingConfigs.debug
+			minifyEnabled false
+		}
+	}
+
+	externalNativeBuild {
+		cmake {
+			path "CMakeLists.txt"
+		}
+	}
+}
+
+dependencies {
+	implementation project(':SDL')
+}
