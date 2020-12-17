@@ -23,7 +23,17 @@ Extracting the files will create the below folder structure for you including so
 ### Submodules
 Included in the template files is a **.gitmodules** file which will link the [RPG-Engine](https://github.com/oohicksyoo/RPG-Engine) and [RPG-Editor](https://github.com/oohicksyoo/RPG-Editor) repos to the project. These files are located under the **project/code/engine/** & **project/code/editor/**. This gives us seperation between engine, editor and game code while still being able to compile it all together still.
 
-### Windows Setup
+### Android
+- **Android Studio Version:** 4.1.1
+- **Android NDK:** 20.0.5594570
+- **Gradle: 6.5**
+- **Min SDK Version:** 21
+- **Target SDK Version:** 29
+
+#### Known Issues
+Currently having issues building on Windows.
+
+### Windows
 After running the setup.ps1 on Windows you will need to download the [Vulkan SDK (1.2.135.0)](https://vulkan.lunarg.com/sdk/home#windows) manually and install the files to the **project/third-party/vulkan-windows**
 
 ### Lua
