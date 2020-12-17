@@ -9,7 +9,7 @@ $env:ANDROID_HOME="C:\Users\$env:UserName\AppData\Local\Android\Sdk"
 Write-Host "Using Android SDK at: $env:ANDROID_HOME"
 
 # We will be using a specific version of the Android NDK.
-$NDK_VERSION="21.1.6352462"
+$NDK_VERSION="20.0.5594570"
 $env:ANDROID_NDK="$env:ANDROID_HOME\ndk\$NDK_VERSION"
 Write-Host "Using Android NDK at: $env:ANDROID_NDK"
 
@@ -119,7 +119,7 @@ Pop-Location
 Push-Location "app\src\main\assets"
 if (!(Test-Path "assets")) {
 	Write-Host "Linking assets"
-	cmd.exe /c 'mklink /d assets ..\..\..\..\..\main\assets'
+	cmd.exe /c 'mklink /d assets ..\..\..\..\..\..\assets'
 }
 Pop-Location
 
