@@ -24,6 +24,7 @@ Extracting the files will create the below folder structure for you including so
 Included in the template files is a **.gitmodules** file which will link the [RPG-Engine](https://github.com/oohicksyoo/RPG-Engine) and [RPG-Editor](https://github.com/oohicksyoo/RPG-Editor) repos to the project. These files are located under the **project/code/engine/** & **project/code/editor/**. This gives us seperation between engine, editor and game code while still being able to compile it all together still.
 
 ### Android
+You can adjust the settings below using the **project/targets/android/build.gradle** file but this is what is currently working by default
 - **Android Studio Version:** 4.1.1
 - **Android NDK:** 20.0.5594570
 - **Gradle: 6.5**
