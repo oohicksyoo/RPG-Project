@@ -4,7 +4,6 @@
 
 #include "SceneMain.hpp"
 #include "../engine/core/PerspectiveCamera.hpp"
-#include "../engine/core/StaticMeshInstance.hpp"
 #include "../engine/core/SDLWrapper.hpp"
 #include "../engine/core/LuaWrapper.hpp"
 #include "../engine/core/Log.hpp"
@@ -35,8 +34,8 @@ struct SceneMain::Internal {
 	RPG::AssetManifest GetAssetManifest() {
 		return RPG::AssetManifest{
 				{Pipeline::Default},
-				{StaticMesh::Crate, StaticMesh::Torus},
-				{Texture::Crate, Texture::RedCrossHatch}
+				{StaticMesh::Crate},
+				{Texture::Crate}
 		};
 	}
 
@@ -45,37 +44,10 @@ struct SceneMain::Internal {
 		staticMeshes.push_back(RPG::StaticMeshInstance{
 				StaticMesh::Crate,
 				Texture::Crate,
-				glm::vec3{0.4f, 0.6f, 0.0f},
-				glm::vec3{0.6f, 0.6f, 0.6f},
+				glm::vec3{0.0f, 0.0f, 0.0f},
+				glm::vec3{0.4f, 0.4f, 0.4f},
 				glm::vec3{0.0f, 0.4f, 0.9f},
 				0.0f
-		});
-
-		staticMeshes.push_back(RPG::StaticMeshInstance{
-				StaticMesh::Torus,
-				Texture::RedCrossHatch,
-				glm::vec3{-0.6f, 0.4f, 0.0f},
-				glm::vec3{0.4f, 0.4f, 0.4f},
-				glm::vec3{0.2f, 1.0f, 0.4f},
-				0.0f
-		});
-
-		staticMeshes.push_back(RPG::StaticMeshInstance{
-				StaticMesh::Crate,
-				Texture::Crate,
-				glm::vec3{-0.5f, -0.5f, 0.0f},
-				glm::vec3{0.7f, 0.3f, 0.3f},
-				glm::vec3{0.2f, 0.6f, 0.1f},
-				90.0f
-		});
-
-		staticMeshes.push_back(RPG::StaticMeshInstance{
-				StaticMesh::Torus,
-				Texture::RedCrossHatch,
-				glm::vec3{0.6f, -0.4f, 0.0f},
-				glm::vec3{0.4f, 0.4f, 0.4f},
-				glm::vec3{0.6f, 0.3f, 0.1f},
-				50.0f
 		});
 
 		//Calling Lua functions

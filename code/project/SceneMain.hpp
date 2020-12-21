@@ -6,10 +6,10 @@
 
 #include "../engine/core/InternalPointer.hpp"
 #include "../engine/core/WindowSize.hpp"
-#include "../engine/core/Scene.hpp"
+#include "../engine/core/IScene.hpp"
 
 namespace RPG {
-	struct SceneMain : public RPG::Scene {
+	struct SceneMain : public RPG::IScene {
 		public:
 			SceneMain(const RPG::WindowSize& frameSize);
 			RPG::AssetManifest GetAssetManifest() override;
