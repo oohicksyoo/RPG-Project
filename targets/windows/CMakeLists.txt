@@ -19,11 +19,52 @@ include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
 include_directories(${THIRD_PARTY_DIR}/sdl-image-windows/include)
 include_directories(${THIRD_PARTY_DIR}/vulkan-windows/Include)
 include_directories(${THIRD_PARTY_DIR}/lua)
+if(CMAKE_BUILD_TYPE MATCHES "Editor")
+	include_directories(${THIRD_PARTY_DIR}/imgui)
+	file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
+	file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/*.cpp)
+endif()
 
-file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
-file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/*.cpp)
+if(CMAKE_BUILD_TYPE MATCHES "Release" OR CMAKE_BUILD_TYPE MATCHES "OpenGL" OR CMAKE_BUILD_TYPE MATCHES "Debug")
+	file(GLOB_RECURSE CPP_MAIN ${MAIN_SOURCE_DIR}/main.cpp)
+	file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/engine/*.hpp)
+	file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/engine/*.cpp)
+	file(GLOB_RECURSE CPP_PROJECT_HEADERS ${MAIN_SOURCE_DIR}/project/*.hpp)
+	file(GLOB_RECURSE CPP_PROJECT_SOURCES ${MAIN_SOURCE_DIR}/project/*.cpp)
+endif()
+
 file(GLOB_RECURSE C_HEADERS ${THIRD_PARTY_DIR}/lua/*.h)
 file(GLOB_RECURSE C_SOURCES ${THIRD_PARTY_DIR}/lua/*.c)
+
+# Include required ImGUI files for SDL/OpenGL
+if(CMAKE_BUILD_TYPE MATCHES "Editor")
+	file(COPY ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_sdl.h DESTINATION ${THIRD_PARTY_DIR}/imgui)
+	file(COPY ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_sdl.cpp DESTINATION ${THIRD_PARTY_DIR}/imgui)
+	file(COPY ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_opengl3.h DESTINATION ${THIRD_PARTY_DIR}/imgui)
+	file(COPY ${THIRD_PARTY_DIR}/imgui/backends/imgui_impl_opengl3.cpp DESTINATION ${THIRD_PARTY_DIR}/imgui)
+	file(COPY ${THIRD_PARTY_DIR}/imgui/misc/cpp/imgui_stdlib.h DESTINATION ${THIRD_PARTY_DIR}/imgui)
+	file(COPY ${THIRD_PARTY_DIR}/imgui/misc/cpp/imgui_stdlib.cpp DESTINATION ${THIRD_PARTY_DIR}/imgui)
+
+	file(GLOB IMGUI_FILES
+		${THIRD_PARTY_DIR}/imgui/imconfig.h
+		${THIRD_PARTY_DIR}/imgui/imgui.cpp
+		${THIRD_PARTY_DIR}/imgui/imgui.h
+		${THIRD_PARTY_DIR}/imgui/imgui_demo.cpp
+		${THIRD_PARTY_DIR}/imgui/imgui_draw.cpp
+		${THIRD_PARTY_DIR}/imgui/imgui_impl_opengl3.cpp
+		${THIRD_PARTY_DIR}/imgui/imgui_impl_opengl3.h
+		${THIRD_PARTY_DIR}/imgui/imgui_impl_sdl.cpp
+		${THIRD_PARTY_DIR}/imgui/imgui_impl_sdl.h		
+		${THIRD_PARTY_DIR}/imgui/imgui_internal.h
+		${THIRD_PARTY_DIR}/imgui/imgui_tables.cpp
+		${THIRD_PARTY_DIR}/imgui/imgui_widgets.cpp
+		${THIRD_PARTY_DIR}/imgui/imstb_rectpack.h
+		${THIRD_PARTY_DIR}/imgui/imstb_textedit.h
+		${THIRD_PARTY_DIR}/imgui/imstb_truetype.h
+		${THIRD_PARTY_DIR}/imgui/imgui_stdlib.h
+		${THIRD_PARTY_DIR}/imgui/imgui_stdlib.cpp
+	)
+endif()
 
 set(LUA_C_FILES ${C_SOURCES})
 list(REMOVE_ITEM LUA_C_FILES ${THIRD_PARTY_DIR}/lua/lua.c)
@@ -37,16 +78,43 @@ if(CMAKE_BUILD_TYPE MATCHES "Release")
 	set(EXECUTABLE_TYPE WIN32)
 endif()
 
-# Sample for forcing OpenGL Builds
-# add_compile_definitions(FORCE_OPENGL)
+# Forcing OpenGL Builds
+if(CMAKE_BUILD_TYPE MATCHES "OpenGL" OR CMAKE_BUILD_TYPE MATCHES "Editor")
+	add_compile_definitions(FORCE_OPENGL)
+endif()
 
-add_executable(
-	rpg-engine ${EXECUTABLE_TYPE}
-	${CPP_HEADERS}
-	${CPP_SOURCES}
-	${C_HEADERS}
-    ${LUA_C_FILES}
-)
+if(CMAKE_BUILD_TYPE MATCHES "Debug" OR CMAKE_BUILD_TYPE MATCHES "OpenGL" OR CMAKE_BUILD_TYPE MATCHES "Editor")
+	add_compile_definitions(RPG_DEBUG)	
+endif()
+
+if(CMAKE_BUILD_TYPE MATCHES "Editor")
+	add_compile_definitions(RPG_EDITOR)
+endif()
+
+
+if(CMAKE_BUILD_TYPE MATCHES "Editor")
+	add_executable(
+		rpg-engine ${EXECUTABLE_TYPE}
+		${CPP_HEADERS}
+		${CPP_SOURCES}
+		${C_HEADERS}
+		${LUA_C_FILES}
+		${IMGUI_FILES}
+	)
+endif()
+
+if(CMAKE_BUILD_TYPE MATCHES "Release" OR CMAKE_BUILD_TYPE MATCHES "OpenGL" OR CMAKE_BUILD_TYPE MATCHES "Debug")
+	add_executable(
+		rpg-engine ${EXECUTABLE_TYPE}
+		${CPP_MAIN}
+		${CPP_HEADERS}
+		${CPP_SOURCES}
+		${CPP_PROJECT_HEADERS}
+		${CPP_PROJECT_SOURCES}
+		${C_HEADERS}
+		${LUA_C_FILES}		
+	)
+endif()
 
 set_property(TARGET rpg-engine PROPERTY CXX_STANDARD 17)
 set_property(TARGET rpg-engine PROPERTY CXX_STANDARD_REQUIRED ON)

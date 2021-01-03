@@ -115,4 +115,21 @@ if (!(Test-Path "..\..\third-party\lua")) {
     Write-Host "Lua already exists"
 }
 
+# Check that we have imgui third party lib
+if (!(Test-Path "..\..\third-party\imgui")) {
+    Write-Host "Downloading Lua library into third party folder lua ..."
+    $WebClient = New-Object System.Net.WebClient
+    $WebClient.DownloadFile("https://github.com/ocornut/imgui/archive/docking.zip", "..\..\third-party\imgui-docking.zip")
+
+    Push-Location -Path "..\..\third-party"
+        Write-Host "Unzipping ImGUI library into third-party\ImGUI ..."
+        cmd.exe /c 'tar -xf imgui-docking.zip'
+        Move-Item -Path imgui-docking -Destination imgui
+        Remove-Item -Path imgui-docking.zip
+        Write-Host "ImGUI extracted and setup ..."
+    Pop-Location
+} else {
+    Write-Host "ImGUI already exists"
+}
+
 Write-Host "Windows setup complete"
