@@ -244,3 +244,18 @@ fetch_third_party_lib_lua() {
         fi
     popd
 }
+
+# If required download imgui source
+fetch_third_party_lib_imgui() {
+	verify_third_party_folder_exists
+
+	pushd ../../third-party
+        if [ ! -d "imgui" ]; then
+            echo "Fetching ImGui from: https://github.com/ocornut/imgui/archive/docking.zip"
+            wget https://github.com/ocornut/imgui/archive/docking.zip
+            unzip -q docking.zip
+            rm docking.zip
+            mv imgui-docking imgui
+        fi
+    popd
+}

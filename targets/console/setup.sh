@@ -15,6 +15,7 @@ fetch_third_party_lib_glm
 fetch_third_party_lib_tiny_obj_loader
 fetch_third_party_lib_vulkan_macos
 fetch_third_party_lib_lua
+fetch_third_party_lib_imgui
 
 # Fetch Framework files
 fetch_framework_sdl2
