@@ -26,6 +26,7 @@ targets:
     sources:
       - path: Source
         excludes:
+          - "editor"
           - "**/*.md"
       - path: Lua
       - path: assets
