@@ -34,6 +34,18 @@ You can adjust the settings below using the **project/targets/android/build.grad
 #### Known Issues
 Currently having issues building on Windows.
 
+### Console (MacOS)
+Rather than building a MacOS xcode project I have also setup a default console project you can setup, build through command line. This will produce an executable for you to launch.
+
+### Emscripten (WebGL)
+Builds the project to web assembly for use in the browser.
+
+### iOS
+- **Target SDK Version:** 12.0
+
+### MacOS
+- **Taget SDK Version::** 10.14 (Mojave)
+
 ### Windows
 After running the setup.ps1 on Windows you will need to download the [Vulkan SDK (1.2.135.0)](https://vulkan.lunarg.com/sdk/home#windows) manually and install the files to the **project/third-party/vulkan-windows**
 
