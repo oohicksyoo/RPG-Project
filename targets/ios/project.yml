@@ -7,7 +7,7 @@ options:
   indentWidth: 4
   tabWidth: 4
   deploymentTarget:
-    iOS: "10.0"
+    iOS: "12.0"
 
 settings:
   CLANG_CXX_LANGUAGE_STANDARD: c++17
@@ -33,6 +33,7 @@ targets:
     sources:
       - path: Source
         excludes:
+          - "editor"
           - "**/*.md"
       - path: Lua
       - path: LaunchScreen.storyboard
