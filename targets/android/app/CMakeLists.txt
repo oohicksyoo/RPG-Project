@@ -76,10 +76,15 @@ include_directories(${ANDROID_NDK}/sources/third_party/vulkan/src/common)
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp)
 
 # We will recursively collate all .hpp header and .cpp source files under the main source directory as the input for the compilation.
-file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
-file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/*.cpp)
+#file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
+#file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/*.cpp)
 file(GLOB_RECURSE C_HEADERS ${THIRD_PARTY_DIR}/lua/*.h)
 file(GLOB_RECURSE C_SOURCES ${THIRD_PARTY_DIR}/lua/*.c)
+file(GLOB_RECURSE CPP_MAIN ${MAIN_SOURCE_DIR}/main.cpp)
+file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/engine/*.hpp)
+file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/engine/*.cpp)
+file(GLOB_RECURSE CPP_PROJECT_HEADERS ${MAIN_SOURCE_DIR}/project/*.hpp)
+file(GLOB_RECURSE CPP_PROJECT_SOURCES ${MAIN_SOURCE_DIR}/project/*.cpp)
 
 set(LUA_C_FILES ${C_SOURCES})
 list(REMOVE_ITEM LUA_C_FILES ${THIRD_PARTY_DIR}/lua/lua.c)
@@ -88,8 +93,11 @@ list(REMOVE_ITEM LUA_C_FILES ${THIRD_PARTY_DIR}/lua/lua.c)
 add_library(
 	rpg-engine
 	SHARED
+	${CPP_MAIN}
 	${CPP_HEADERS}
 	${CPP_SOURCES}
+	${CPP_PROJECT_HEADERS}
+	${CPP_PROJECT_SOURCES}
 	${C_HEADERS}
     ${LUA_C_FILES}
 	${ANDROID_NDK}/sources/third_party/vulkan/src/common/vulkan_wrapper.cpp
