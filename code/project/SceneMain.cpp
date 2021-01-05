@@ -5,8 +5,16 @@
 #include "SceneMain.hpp"
 #include "../engine/core/PerspectiveCamera.hpp"
 #include "../engine/core/SDLWrapper.hpp"
-#include "../engine/core/LuaWrapper.hpp"
+//#include "../engine/core/LuaWrapper.hpp"
 #include "../engine/core/Log.hpp"
+
+#include "../engine/core/Hierarchy.hpp"
+#include "../engine/core/GameObject.hpp"
+#include "../engine/core/components/TransformComponent.hpp"
+#include "../engine/core/components/CameraComponent.hpp"
+#include "../engine/core/components/LuaScriptComponent.hpp"
+#include "../engine/core/components/MeshComponent.hpp"
+#include "../engine/core/AssetInventory.hpp"
 
 #include "Player.hpp"
 
@@ -23,13 +31,14 @@ namespace {
 
 struct SceneMain::Internal {
 	RPG::PerspectiveCamera camera;
-	std::vector<RPG::StaticMeshInstance> staticMeshes;
 	RPG::Player player;
 	const uint8_t* keyboardState;
+	std::shared_ptr<RPG::Hierarchy> hierarchy;
 
 	Internal(const RPG::WindowSize& size) : camera(::CreateCamera(size)),
 											player(RPG::Player(glm::vec3{ 0.0f, 0.0f, 2.0f })),
-											keyboardState(SDL_GetKeyboardState(nullptr)) {}
+											keyboardState(SDL_GetKeyboardState(nullptr)),
+											hierarchy(std::make_unique<RPG::Hierarchy>(RPG::Hierarchy())) {}
 
 	RPG::AssetManifest GetAssetManifest() {
 		return RPG::AssetManifest{
@@ -40,18 +49,24 @@ struct SceneMain::Internal {
 	}
 
 	void Prepare() {
+		//Setup sample hierarchy for the engine
+		{
+			std::shared_ptr<RPG::GameObject> crateGameObject = std::make_unique<RPG::GameObject>(RPG::GameObject("Crate"));
+			crateGameObject->GetTransform()->SetPosition({0.0f, 0.0f, -5.0f});
+			crateGameObject->AddComponent(std::make_unique<RPG::MeshComponent>(RPG::MeshComponent(RPG::Assets::StaticMesh::Crate, RPG::Assets::Texture::Crate)));
+			hierarchy->Add(crateGameObject);
 
-		staticMeshes.push_back(RPG::StaticMeshInstance{
-				StaticMesh::Crate,
-				Texture::Crate,
-				glm::vec3{0.0f, 0.0f, 0.0f},
-				glm::vec3{0.4f, 0.4f, 0.4f},
-				glm::vec3{0.0f, 0.4f, 0.9f},
-				0.0f
-		});
+			std::shared_ptr<RPG::GameObject> emptyGameObject = std::make_unique<RPG::GameObject>(RPG::GameObject("Empty"));
+			hierarchy->Add(emptyGameObject);
+
+			std::shared_ptr<RPG::GameObject> secondCrateGameObject = std::make_unique<RPG::GameObject>(RPG::GameObject("Child Crate"));
+			secondCrateGameObject->GetTransform()->SetPosition({3.0f, 0.0f, 0.0f});
+			secondCrateGameObject->AddComponent(std::make_unique<RPG::MeshComponent>(RPG::MeshComponent(RPG::Assets::StaticMesh::Crate, RPG::Assets::Texture::Crate)));
+			hierarchy->Add(secondCrateGameObject, crateGameObject);
+		}
 
 		//Calling Lua functions
-		{
+		/*{
 			const char* LUA_FILE = R"(
             function Pythagoras(a, b)
                 return (a * a) + (b * b), a, b
@@ -206,50 +221,39 @@ struct SceneMain::Internal {
 				lua_pcall(L, 0, 0, 0);
 				lua_getglobal(L, "Resume");
 				lua_pcall(L, 0, 0, 0);
-				/*if (lua_isfunction(thread, -1)) {
-					lua_pcall(thread, 0, 0, 0);
-					//rpg::log("Lua", std::to_string(lua_gettop(L)));
-					rpg::log("Lua", lua_typename(thread, lua_type(thread, -1)));
-					if (lua_isstring(thread, -1)) {
-						rpg::log("Lua", lua_tostring(thread, -1));
-					} else {
-						lua_State* from = lua_tothread(thread, -1);
-						//rpg::log("Lua", std::to_string(lua_status(thread)));
-
-
-						int r = lua_resume(thread, from, 0);
-						if (r == LUA_YIELD) {
-							rpg::log("Lua", "Yield");
-						} else if (r == LUA_OK) {
-							rpg::log("Lua", "Okay");
-						} else {
-							if (lua_isstring(thread, -1)) {
-								rpg::log("Lua", lua_tostring(thread, -1));
-							}
-						}
-					}
-				}*/
 			}
 
 			lua_close(L);
+		}*/
+	}
+
+	void Awake() {
+		for (auto gameObject : hierarchy->GetHierarchy()) {
+			gameObject->Awake();
+		}
+	}
+
+	void Start() {
+		for (auto gameObject : hierarchy->GetHierarchy()) {
+			gameObject->Start();
 		}
 	}
 
 	void Update(const float& delta) {
 		ProcessInput(delta);
+		camera.Configure(player.GetPosition(), player.GetDirection()); //TODO: Replace this with current Camera.Main
 
-		camera.Configure(player.GetPosition(), player.GetDirection());
-
-		const glm::mat4 cameraMatrix{camera.GetProjectionMatrix() * camera.GetViewMatrix()};
-
-		for (auto& staticMesh : staticMeshes) {
-			staticMesh.RotateBy(delta * 45.0f);
-			staticMesh.Update(cameraMatrix);
+		for (auto gameObject : hierarchy->GetHierarchy()) {
+			gameObject->Update(delta);
 		}
 	}
 
-	void Render(RPG::Renderer& renderer) {
-		renderer.Render(Pipeline::Default, staticMeshes);
+	void Render(RPG::IRenderer& renderer) {
+		renderer.Render(Pipeline::Default, hierarchy, {camera.GetProjectionMatrix() * camera.GetViewMatrix()});
+	}
+
+	void RenderToFrameBuffer(RPG::IRenderer& renderer, std::shared_ptr<RPG::FrameBuffer>frameBuffer) {
+		renderer.RenderToFrameBuffer(Pipeline::Default, hierarchy, frameBuffer, {camera.GetProjectionMatrix() * camera.GetViewMatrix()});
 	}
 
 	void OnWindowResized(const RPG::WindowSize& size) {
@@ -293,14 +297,30 @@ void SceneMain::Prepare() {
 	internal->Prepare();
 }
 
+void SceneMain::Awake() {
+	internal->Awake();
+}
+
+void SceneMain::Start() {
+	internal->Start();
+}
+
 void SceneMain::Update(const float& delta) {
 	internal->Update(delta);
 }
 
-void SceneMain::Render(RPG::Renderer& renderer) {
+void SceneMain::Render(RPG::IRenderer& renderer) {
 	internal->Render(renderer);
+}
+
+void SceneMain::RenderToFrameBuffer(RPG::IRenderer &renderer, std::shared_ptr<RPG::FrameBuffer> frameBuffer) {
+	internal->RenderToFrameBuffer(renderer, frameBuffer);
 }
 
 void SceneMain::OnWindowResized(const RPG::WindowSize& size) {
 	internal->OnWindowResized(size);
+}
+
+std::shared_ptr<RPG::Hierarchy> SceneMain::GetHierarchy() {
+	return internal->hierarchy;
 }
