@@ -40,6 +40,9 @@ Rather than building a MacOS xcode project I have also setup a default console p
 ### Emscripten (WebGL)
 Builds the project to web assembly for use in the browser.
 
+#### Known Issues
+Currently can not build via Windows.
+
 ### iOS
 - **Target SDK Version:** 12.0
 
