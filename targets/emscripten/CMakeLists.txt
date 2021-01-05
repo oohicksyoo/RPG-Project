@@ -22,6 +22,8 @@ file(GLOB ALL_CPP_SOURCES
 	${MAIN_SOURCE_DIR}/engine/application/opengl/*.cpp
 	${MAIN_SOURCE_DIR}/engine/core/*.hpp
 	${MAIN_SOURCE_DIR}/engine/core/*.cpp
+	${MAIN_SOURCE_DIR}/engine/core/components/*.hpp
+	${MAIN_SOURCE_DIR}/engine/core/components/*.cpp
 	${MAIN_SOURCE_DIR}/project/*.hpp
 	${MAIN_SOURCE_DIR}/project/*.cpp
 )
