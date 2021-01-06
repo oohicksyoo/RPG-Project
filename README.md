@@ -57,7 +57,15 @@ Currently can not build via Windows.
 - **Taget SDK Version::** 10.14 (Mojave)
 
 ### Windows
-After running the setup.ps1 on Windows you will need to download the [Vulkan SDK (1.2.135.0)](https://vulkan.lunarg.com/sdk/home#windows) manually and install the files to the **project/third-party/vulkan-windows**
+Before running the setup.ps1 on Windows you will need to download the [Vulkan SDK (1.2.135.0)](https://vulkan.lunarg.com/sdk/home#windows) manually and install the files to the **project/third-party/vulkan-windows**
+
+#### Setup
+* Download vulkan and during the installation set it to the **project/third-party/vulkan-windows** (If this is not your first time simply copy the vulkan-windows from another project)
+* Run setup.ps1
+  * open CMD
+  * cd to **project/targets/windows**
+  * powershell -File setup.ps1
+    * This will run through and download all third-party assets needed for the Windows target
 
 ### Lua
 Lua has a function that uses a deprecated function called on **iOS** & **Android**. To avoid this issue it is reconmended to change this below after running the setup file for any target.
