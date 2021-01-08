@@ -132,4 +132,21 @@ if (!(Test-Path "..\..\third-party\imgui")) {
     Write-Host "ImGUI already exists"
 }
 
+# Check that we have nlohmann json third party lib
+if (!(Test-Path "..\..\third-party\json")) {
+	Write-Host "Downloading Json library into third party folder json ..."
+    $WebClient = New-Object System.Net.WebClient
+    $WebClient.DownloadFile("https://github.com/nlohmann/json/archive/v3.9.1.zip", "..\..\third-party\v3.9.1.zip")
+
+    Push-Location -Path "..\..\third-party"
+        Write-Host "Unzipping json library into third-party\json ..."
+        cmd.exe /c 'tar -xf v3.9.1.zip'
+        Move-Item -Path json-3.9.1 -Destination json
+        Remove-Item -Path v3.9.1.zip
+        Write-Host "Json extracted and setup ..."
+    Pop-Location
+} else {
+    Write-Host "Json already exists"
+}
+
 Write-Host "Windows setup complete"
