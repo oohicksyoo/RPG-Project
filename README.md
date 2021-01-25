@@ -6,6 +6,8 @@ Initial Project Building requires download and extracting the latest release int
 
 Extracting the files will create the below folder structure for you including some basic files needed for a specific target. Some folders such as the **third-party** will not be created as it is generated through setup scripts for a target.
 
+TODO: Talk about how to relink the submodules because sourcetree never picked them up
+
 - project/
   - assets/
     - models
