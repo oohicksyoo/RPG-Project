@@ -68,6 +68,31 @@ Before running the setup.ps1 on Windows you will need to download the [Vulkan SD
   * cd to **project/targets/windows**
   * powershell -File setup.ps1
     * This will run through and download all third-party assets needed for the Windows target
+    
+#### CLion
+For CLion I like to open the project at the **project/** folder. Once you have selected that folder navigate to **project/targets/windows/CMakeLists.txt** and open that up. CLion should prompt you at the top of the file to load this as the project and select to do so.
+
+**File/Settings/Build, Execution, Deployment/CMake** here we will click the + to make a new build and please make the following builds down below
+
+##### Debug
+Name: Debug
+Build Type: Debug
+CMake Options: -DCMAKE_BUILD_TYPE=Debug
+
+##### Release
+Name: Release
+Build Type: Release
+CMake Options: -DCMAKE_BUILD_TYPE=Release
+
+##### Debug-OpenGL
+Name: Debug-OpenGL
+Build Type: Debug
+CMake Options: -DCMAKE_BUILD_TYPE=OpenGL
+
+##### Debug-OpenGL-Editor
+Name: Debug-OpenGL-Editor
+Build Type: Debug
+CMake Options: -DCMAKE_BUILD_TYPE=Editor
 
 ### Lua
 Lua has a function that uses a deprecated function called on **iOS** & **Android**. To avoid this issue it is reconmended to change this below after running the setup file for any target.
