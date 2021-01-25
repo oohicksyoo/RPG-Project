@@ -149,4 +149,21 @@ if (!(Test-Path "..\..\third-party\json")) {
     Write-Host "Json already exists"
 }
 
+# Check that we have ImGuizmo
+if (!(Test-Path "..\..\third-party\ImGuizmo")) {
+	Write-Host "Downloading ImGuizmo library into third party folder ImGuizmo ..."
+    $WebClient = New-Object System.Net.WebClient
+    $WebClient.DownloadFile("https://github.com/CedricGuillemet/ImGuizmo/archive/master.zip", "..\..\third-party\ImGuizmo-master.zip")
+
+    Push-Location -Path "..\..\third-party"
+        Write-Host "Unzipping json library into third-party\json ..."
+        cmd.exe /c 'tar -xf ImGuizmo-master.zip'
+        Move-Item -Path ImGuizmo-master -Destination ImGuizmo
+        Remove-Item -Path ImGuizmo-master.zip
+        Write-Host "ImGuizmo extracted and setup ..."
+    Pop-Location
+} else {
+    Write-Host "ImGuizmo already exists"
+}
+
 Write-Host "Windows setup complete"

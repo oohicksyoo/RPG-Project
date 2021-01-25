@@ -19,11 +19,15 @@ include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
 include_directories(${THIRD_PARTY_DIR}/sdl-image-windows/include)
 include_directories(${THIRD_PARTY_DIR}/vulkan-windows/Include)
 include_directories(${THIRD_PARTY_DIR}/lua)
+include_directories(${THIRD_PARTY_DIR}/json/single_include)
 if(CMAKE_BUILD_TYPE MATCHES "Editor")
 	include_directories(${THIRD_PARTY_DIR}/imgui)
+	include_directories(${THIRD_PARTY_DIR}/ImGuizmo)
 	file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)
 	file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/*.cpp)
-else()
+endif()
+
+if(CMAKE_BUILD_TYPE MATCHES "Release" OR CMAKE_BUILD_TYPE MATCHES "OpenGL" OR CMAKE_BUILD_TYPE MATCHES "Debug")
 	file(GLOB_RECURSE CPP_MAIN ${MAIN_SOURCE_DIR}/main.cpp)
 	file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/engine/*.hpp)
 	file(GLOB_RECURSE CPP_SOURCES ${MAIN_SOURCE_DIR}/engine/*.cpp)
@@ -33,6 +37,7 @@ endif()
 
 file(GLOB_RECURSE C_HEADERS ${THIRD_PARTY_DIR}/lua/*.h)
 file(GLOB_RECURSE C_SOURCES ${THIRD_PARTY_DIR}/lua/*.c)
+file(GLOB_RECURSE CPP_JSON_HEADERS ${THIRD_PARTY_DIR}/json/single_include/*.hpp)
 
 # Include required ImGUI files for SDL/OpenGL
 if(CMAKE_BUILD_TYPE MATCHES "Editor")
@@ -62,6 +67,13 @@ if(CMAKE_BUILD_TYPE MATCHES "Editor")
 		${THIRD_PARTY_DIR}/imgui/imgui_stdlib.h
 		${THIRD_PARTY_DIR}/imgui/imgui_stdlib.cpp
 	)
+
+	#ImGuizmo Files
+	file(GLOB IMGUIZMO_FILES
+		${THIRD_PARTY_DIR}/ImGuizmo/ImGuizmo.h
+		${THIRD_PARTY_DIR}/ImGuizmo/ImGuizmo.cpp
+	)
+
 endif()
 
 set(LUA_C_FILES ${C_SOURCES})
@@ -97,7 +109,9 @@ if(CMAKE_BUILD_TYPE MATCHES "Editor")
 		${CPP_SOURCES}
 		${C_HEADERS}
 		${LUA_C_FILES}
+		${CPP_JSON_HEADERS}
 		${IMGUI_FILES}
+		${IMGUIZMO_FILES}
 	)
 endif()
 
@@ -111,6 +125,7 @@ if(CMAKE_BUILD_TYPE MATCHES "Release" OR CMAKE_BUILD_TYPE MATCHES "OpenGL" OR CM
 		${CPP_PROJECT_SOURCES}
 		${C_HEADERS}
 		${LUA_C_FILES}		
+		${CPP_JSON_HEADERS}
 	)
 endif()
 
