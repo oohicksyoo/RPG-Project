@@ -245,6 +245,21 @@ fetch_third_party_lib_lua() {
     popd
 }
 
+# If required, download json source
+fetch_third_party_lib_json() {
+    verify_third_party_folder_exists
+
+    pushd ../../third-party
+        if [ ! -d "json" ]; then
+            echo "Fetching json from: https://github.com/nlohmann/json/archive/v3.9.1.zip"
+            wget https://github.com/nlohmann/json/archive/v3.9.1.zip
+            unzip -q v3.9.1.zip
+            rm v3.9.1.zip
+            mv json-3.9.1 json
+        fi
+    popd
+}
+
 # If required download imgui source
 fetch_third_party_lib_imgui() {
 	verify_third_party_folder_exists

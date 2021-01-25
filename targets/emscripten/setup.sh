@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Include the shared scripts and utility methods that are common to all platforms.
-. ../../shared-scripts.sh
+. ../../shared/shared-scripts.sh
 
 fetch_brew_dependency "wget"
 fetch_brew_dependency "cmake"
@@ -11,6 +11,7 @@ fetch_third_party_lib_glm
 fetch_third_party_lib_tiny_obj_loader
 fetch_third_party_lib_sdl_image
 fetch_third_party_lib_lua
+fetch_third_party_lib_json
 
 # If required, download and configure the Emscripten SDK into the third-party folder.
 pushd ../../third-party

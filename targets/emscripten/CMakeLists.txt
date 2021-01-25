@@ -12,6 +12,7 @@ include_directories(${THIRD_PARTY_DIR}/glm)
 include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
 include_directories(${THIRD_PARTY_DIR}/SDL2_image)
 include_directories(${THIRD_PARTY_DIR}/lua)
+include_directories(${THIRD_PARTY_DIR}/json/single_include)
 
 #Fill this out correctly
 file(GLOB ALL_CPP_SOURCES
@@ -24,11 +25,16 @@ file(GLOB ALL_CPP_SOURCES
 	${MAIN_SOURCE_DIR}/engine/core/*.cpp
 	${MAIN_SOURCE_DIR}/engine/core/components/*.hpp
 	${MAIN_SOURCE_DIR}/engine/core/components/*.cpp
+	${MAIN_SOURCE_DIR}/engine/core/Input/*.hpp
+	${MAIN_SOURCE_DIR}/engine/core/Input/*.cpp
+	${MAIN_SOURCE_DIR}/engine/core/resourceLoader/*.hpp
+	${MAIN_SOURCE_DIR}/engine/core/resourceLoader/*.cpp
 	${MAIN_SOURCE_DIR}/project/*.hpp
 	${MAIN_SOURCE_DIR}/project/*.cpp
 )
 file(GLOB_RECURSE C_HEADERS ${THIRD_PARTY_DIR}/lua/*.h)
 file(GLOB_RECURSE C_SOURCES ${THIRD_PARTY_DIR}/lua/*.c)
+file(GLOB_RECURSE CPP_JSON_HEADERS ${THIRD_PARTY_DIR}/json/single_include/*.hpp)
 
 set(LUA_C_FILES ${C_SOURCES})
 list(REMOVE_ITEM LUA_C_FILES ${THIRD_PARTY_DIR}/lua/lua.c)
@@ -39,6 +45,7 @@ add_executable(
 	${ALL_CPP_SOURCES}
 	${C_HEADERS}
 	${LUA_C_FILES}
+	${CPP_JSON_HEADERS}
 )
 
 # These properties specify what kind of Emscripten build to perform and are assigned to our 'a-simple-triangle' executable target.
